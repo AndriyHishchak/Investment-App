@@ -1,10 +1,8 @@
 package com.project.Investment.App.service.impl;
 
-import com.project.Investment.App.DTO.EntityDto;
-import com.project.Investment.App.DTO.MapperJdbc.PerfAggregateMapper;
-import com.project.Investment.App.DTO.PerfAggregateDto;
+import com.project.Investment.App.Dao.MapperJdbc.PerfAggregateMapper;
+import com.project.Investment.App.Dao.PerfAggregateDao;
 import com.project.Investment.App.exception.NotFountException;
-import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.PerfAggregate;
 import com.project.Investment.App.service.PerfAggregateService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +26,22 @@ public class PerfAggregateServiceImpl implements PerfAggregateService {
     }
 
     @Override
-    public PerfAggregateDto findById(Integer id) {
+    public PerfAggregateDao findById(Integer id) {
         PerfAggregate perfAggregate = jdbcTemplate.query("Select * from perf_aggregate where perf_aggregate_id=?",
                 new BeanPropertyRowMapper<>(PerfAggregate.class),
                 new Object[]{id})
                 .stream().findAny().orElseThrow(() -> new NotFountException("Entity not found"));
         log.info("In findById - PerfAggregate: {} find by id: {}",perfAggregate,id);
-        return PerfAggregateDto.fromPerfAggregate(perfAggregate);
+        return PerfAggregateDao.fromPerfAggregate(perfAggregate);
     }
 
     @Override
-    public List<PerfAggregateDto> findAll() {
-        List<PerfAggregateDto> perfAggregateDtos = new ArrayList<>();
+    public List<PerfAggregateDao> findAll() {
+        List<PerfAggregateDao> perfAggregateDaos = new ArrayList<>();
         List<PerfAggregate> perfAggregates = jdbcTemplate.query("Select * from perf_aggregate",new PerfAggregateMapper());
-        perfAggregates.forEach(perfAggregate -> perfAggregateDtos.add(PerfAggregateDto.fromPerfAggregate(perfAggregate)));
-        log.info("In getAll - {} PerfAggregate found" , perfAggregateDtos.size());
-        return new ArrayList<>(perfAggregateDtos);
+        perfAggregates.forEach(perfAggregate -> perfAggregateDaos.add(PerfAggregateDao.fromPerfAggregate(perfAggregate)));
+        log.info("In getAll - {} PerfAggregate found" , perfAggregateDaos.size());
+        return new ArrayList<>(perfAggregateDaos);
     }
 
     @Override

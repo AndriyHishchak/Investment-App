@@ -1,6 +1,6 @@
 package com.project.Investment.App.rest;
 
-import com.project.Investment.App.DTO.EntityDto;
+import com.project.Investment.App.Dao.EntityDao;
 import com.project.Investment.App.service.EntityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class RestControllerEntity {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<EntityDto> getById(@PathVariable(name = "id") String id) {
+    public ResponseEntity<EntityDao> getById(@PathVariable(name = "id") String id) {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 }

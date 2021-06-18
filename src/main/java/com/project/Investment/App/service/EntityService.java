@@ -1,8 +1,8 @@
 package com.project.Investment.App.service;
 
-import com.project.Investment.App.DTO.EntityDto;
+import com.project.Investment.App.Dao.EntityDao;
 
 public interface EntityService {
 
-    EntityDto findById (String id);
+    EntityDao findById (String id);
 }

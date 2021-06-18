@@ -1,4 +1,4 @@
-package com.project.Investment.App.DTO.MapperJdbc;
+package com.project.Investment.App.Dao.MapperJdbc;
 
 import com.project.Investment.App.model.PerfAggregate;
 import org.springframework.jdbc.core.RowMapper;

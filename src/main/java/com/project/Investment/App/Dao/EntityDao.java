@@ -1,14 +1,9 @@
-package com.project.Investment.App.DTO;
+package com.project.Investment.App.Dao;
 
 import com.project.Investment.App.model.Entity;
-import com.project.Investment.App.model.PerfAggregate;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,24 +12,24 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EntityDto {
+public class EntityDao {
     String entityId;
     String entityName;
     String entityType;
     LocalDate effectiveDate;
     String defaultBenchmarkId;
-    List<PerfAggregateDto> perfAggregates;
+    List<PerfAggregateDao> perfAggregates;
 
-    public static EntityDto fromEntity(Entity entity) {
-        List<PerfAggregateDto> perfAggregateDtos = PerfAggregateDto.fromToPerfAggregate(entity.getPerfAggregates());
+    public static EntityDao fromEntity(Entity entity) {
+        List<PerfAggregateDao> perfAggregateDaos = PerfAggregateDao.fromToPerfAggregate(entity.getPerfAggregates());
 
-        return EntityDto.builder()
+        return EntityDao.builder()
                 .entityId(entity.getEntityId())
                 .entityName(entity.getEntityName())
                 .entityType(entity.getEntityType())
                 .effectiveDate(entity.getEffectiveDate())
                 .defaultBenchmarkId(entity.getDefaultBenchmarkId())
-                .perfAggregates(perfAggregateDtos)
+                .perfAggregates(perfAggregateDaos)
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.project.Investment.App.service.impl;
 
-import com.project.Investment.App.DTO.EntityDto;
+import com.project.Investment.App.Dao.EntityDao;
 import com.project.Investment.App.exception.NotFountException;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.repository.EntityRepository;
@@ -19,10 +19,10 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public EntityDto findById(String id) {
+    public EntityDao findById(String id) {
         Entity entity = repository.findById(id)
                 .orElseThrow(() -> new NotFountException("Entity not found"));
         log.info("In findById - entity: {} find by id: {}",entity,id);
-        return EntityDto.fromEntity(entity);
+        return EntityDao.fromEntity(entity);
     }
 }
