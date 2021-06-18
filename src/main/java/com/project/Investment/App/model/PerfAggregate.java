@@ -1,8 +1,6 @@
 package com.project.Investment.App.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,7 +10,10 @@ import java.time.LocalDate;
 
 @javax.persistence.Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "perf_aggregate")
+@Builder
 @Data
 public class PerfAggregate {
 
@@ -39,6 +40,8 @@ public class PerfAggregate {
 
     @Column(name = "return")
     Double Return;
+
+
 
     @Override
     public String toString() {
