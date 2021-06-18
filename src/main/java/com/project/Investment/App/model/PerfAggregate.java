@@ -8,8 +8,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-//
-//@javax.persistence.Entity
+
+@javax.persistence.Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "perf_aggregate")
 @Data
