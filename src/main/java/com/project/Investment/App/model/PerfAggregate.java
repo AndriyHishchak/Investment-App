@@ -2,6 +2,7 @@ package com.project.Investment.App.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -38,4 +39,17 @@ public class PerfAggregate {
 
     @Column(name = "return")
     Double Return;
+
+    @Override
+    public String toString() {
+        return "PerfAggregate{" +
+                "effectiveDate=" + effectiveDate +
+                ", perfAggregateId=" + perfAggregateId +
+                ", l1='" + l1 + '\'' +
+                ", l2='" + l2 + '\'' +
+                ", l3='" + l3 + '\'' +
+                ", weight=" + weight +
+                ", Return=" + Return +
+                '}';
+    }
 }

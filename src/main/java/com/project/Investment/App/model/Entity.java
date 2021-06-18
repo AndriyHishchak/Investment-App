@@ -1,9 +1,6 @@
 package com.project.Investment.App.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -30,4 +27,16 @@ public class Entity {
 
     @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<PerfAggregate> perfAggregates;
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "entityId='" + entityId + '\'' +
+                ", entityName='" + entityName + '\'' +
+                ", entityType='" + entityType + '\'' +
+                ", effectiveDate=" + effectiveDate +
+                ", defaultBenchmarkId='" + defaultBenchmarkId + '\'' +
+                ", perfAggregates=" + perfAggregates +
+                '}';
+    }
 }
