@@ -20,10 +20,12 @@ public class Entity {
     String entityName;
     @Column(name = "entity_type")
     String entityType;
+
     @Column(name = "effective_date")
     LocalDate effectiveDate;
     @Column(name = "default_benchmark_id")
     String defaultBenchmarkId;
+
 
     @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<PerfAggregate> perfAggregates;
