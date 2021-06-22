@@ -1,9 +1,14 @@
-package com.project.Investment.App.dao;
+package com.project.Investment.App.DTO;
 
 import com.project.Investment.App.model.Entity;
+import com.project.Investment.App.model.PerfAggregate;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EntityDao {
+public class EntityDto {
     String entityId;
     String entityName;
     String entityType;
@@ -20,14 +25,15 @@ public class EntityDao {
     String defaultBenchmarkId;
 
 
-    public static EntityDao fromEntity(Entity entity) {
+    public static EntityDto fromEntity(Entity entity) {
 
-        return EntityDao.builder()
+
+        return EntityDto.builder()
                 .entityId(entity.getEntityId().getEntityId())
                 .entityName(entity.getEntityName())
                 .entityType(entity.getEntityType())
-                .defaultBenchmarkId(entity.getDefaultBenchmarkId())
                 .effectiveDate(entity.getEntityId().getEffectiveDate())
+                .defaultBenchmarkId(entity.getDefaultBenchmarkId())
                 .build();
     }
 }

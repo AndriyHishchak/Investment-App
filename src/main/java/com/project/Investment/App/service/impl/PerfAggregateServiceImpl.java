@@ -1,8 +1,8 @@
 package com.project.Investment.App.service.impl;
 
-import com.project.Investment.App.Dao.MapperJdbc.PerfAggregateMapper;
-import com.project.Investment.App.Dao.PerfAggregateDao;
-import com.project.Investment.App.exception.NotFountException;
+import com.project.Investment.App.dao.mapperJdbc.PerfAggregateMapper;
+import com.project.Investment.App.dao.PerfAggregateDao;
+import com.project.Investment.App.exception.ResourceNotFoundException;
 import com.project.Investment.App.model.PerfAggregate;
 import com.project.Investment.App.service.PerfAggregateService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +30,8 @@ public class PerfAggregateServiceImpl implements PerfAggregateService {
         PerfAggregate perfAggregate = jdbcTemplate.query("Select * from perf_aggregate where perf_aggregate_id=?",
                 new BeanPropertyRowMapper<>(PerfAggregate.class),
                 new Object[]{id})
-                .stream().findAny().orElseThrow(() -> new NotFountException("Entity not found"));
-        log.info("In findById - PerfAggregate: {} find by id: {}",perfAggregate,id);
+                .stream().findAny().orElseThrow(() -> new ResourceNotFoundException("PerfAggregate not found : " + id));
+        log.info("Method: findById - PerfAggregate: {} find by id: {}",perfAggregate,id);
         return PerfAggregateDao.fromPerfAggregate(perfAggregate);
     }
 
@@ -40,14 +40,14 @@ public class PerfAggregateServiceImpl implements PerfAggregateService {
         List<PerfAggregateDao> perfAggregateDaos = new ArrayList<>();
         List<PerfAggregate> perfAggregates = jdbcTemplate.query("Select * from perf_aggregate",new PerfAggregateMapper());
         perfAggregates.forEach(perfAggregate -> perfAggregateDaos.add(PerfAggregateDao.fromPerfAggregate(perfAggregate)));
-        log.info("In getAll - {} PerfAggregate found" , perfAggregateDaos.size());
+        log.info("Method: getAll - {} PerfAggregate found" , perfAggregateDaos.size());
         return new ArrayList<>(perfAggregateDaos);
     }
 
     @Override
     public Integer getCountPerfAggregate() {
         Integer count = jdbcTemplate.queryForObject("Select Count(*) from perf_aggregate", Integer.class);
-        log.info("In getCountPerfAggregate - {} PerfAggregate found" , count);
+        log.info("Method: getCountPerfAggregate - {} PerfAggregate found" , count);
         return count;
     }
 }

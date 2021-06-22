@@ -1,6 +1,6 @@
 package com.project.Investment.App.rest;
 
-import com.project.Investment.App.Dao.PerfAggregateDao;
+import com.project.Investment.App.dao.PerfAggregateDao;
 import com.project.Investment.App.service.PerfAggregateService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

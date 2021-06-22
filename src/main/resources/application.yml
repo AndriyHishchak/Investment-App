@@ -24,3 +24,6 @@ flyway:
     schemas: investment
     url: jdbc:h2:mem:investment
     locations: classpath:db/migration
+
+
+

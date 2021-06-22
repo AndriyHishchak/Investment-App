@@ -17,11 +17,6 @@ import java.time.LocalDate;
 @Data
 public class PerfAggregate {
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "entity_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Entity entity;
-
     @Column(name = "effective_date")
     LocalDate effectiveDate;
 

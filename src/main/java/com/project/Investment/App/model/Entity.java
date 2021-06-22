@@ -13,22 +13,15 @@ import java.util.List;
 @Data
 public class Entity {
 
-    @Id
+    @EmbeddedId
     @Column(name = "entity_id")
-    String entityId;
+    EntityId entityId;
     @Column(name = "entity_name")
     String entityName;
     @Column(name = "entity_type")
     String entityType;
-
-    @Column(name = "effective_date")
-    LocalDate effectiveDate;
     @Column(name = "default_benchmark_id")
     String defaultBenchmarkId;
-
-
-    @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<PerfAggregate> perfAggregates;
 
     @Override
     public String toString() {
@@ -36,9 +29,8 @@ public class Entity {
                 "entityId='" + entityId + '\'' +
                 ", entityName='" + entityName + '\'' +
                 ", entityType='" + entityType + '\'' +
-                ", effectiveDate=" + effectiveDate +
                 ", defaultBenchmarkId='" + defaultBenchmarkId + '\'' +
-                ", perfAggregates=" + perfAggregates +
+
                 '}';
     }
 }

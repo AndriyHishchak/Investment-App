@@ -1,9 +1,12 @@
-package com.project.Investment.App.dao;
+package com.project.Investment.App.DTO;
 
+import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.PerfAggregate;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PerfAggregateDao {
+public class PerfAggregateDto {
 
     LocalDate effectiveDate;
     Integer perfAggregateId;
@@ -23,12 +26,12 @@ public class PerfAggregateDao {
     Double weight;
     Double Return;
 
-    public static List<PerfAggregateDao> fromToPerfAggregate (List<PerfAggregate> perfAggregates) {
-        return perfAggregates.stream().map(PerfAggregateDao::fromPerfAggregate).collect(Collectors.toList());
+    public static List<PerfAggregateDto> fromToPerfAggregate (List<PerfAggregate> perfAggregates) {
+        return perfAggregates.stream().map(PerfAggregateDto::fromPerfAggregate).collect(Collectors.toList());
     }
 
-    public static PerfAggregateDao fromPerfAggregate (PerfAggregate perfAggregate) {
-        return PerfAggregateDao.builder()
+    public static PerfAggregateDto fromPerfAggregate (PerfAggregate perfAggregate) {
+        return PerfAggregateDto.builder()
                 .effectiveDate(perfAggregate.getEffectiveDate())
                 .perfAggregateId(perfAggregate.getPerfAggregateId())
                 .l1(perfAggregate.getL1())
