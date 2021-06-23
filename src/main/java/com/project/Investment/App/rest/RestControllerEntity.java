@@ -1,17 +1,15 @@
 package com.project.Investment.App.rest;
 
-import com.project.Investment.App.dao.EntityDao;
-import com.project.Investment.App.exception.ErrorDetails;
-import com.project.Investment.App.exception.ResourceNotFoundException;
+import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
+
 import com.project.Investment.App.service.EntityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
+import javax.validation.Valid;
 import java.net.URI;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,46 +23,47 @@ public class RestControllerEntity {
         this.service = service;
     }
 
-
     @GetMapping("{id}")
-    public EntityDao getById(@PathVariable(name = "id") String id) {
+    public Entity getById(@PathVariable(name = "id") String id) {
         return service.findById(id);
     }
+
+    @GetMapping("/DefaultBenchmarkId/{DefaultBenchmarkId}")
+    public List<Entity> getByDefaultBenchmarkId(@PathVariable(name = "DefaultBenchmarkId") String id) {
+        return service.findByDefaultBenchmarkId(id);
+    }
+
     @GetMapping()
-    public List<EntityDao> getAll(@RequestParam(value = "name",required = false) Optional<String> name ) {
+    public List<Entity> getAll(@RequestParam(value = "name",required = false) Optional<String> name ) {
         return service.getAll( name );
     }
     @PostMapping()
-    public ResponseEntity<?> save (@RequestBody Entity airCompany){
-        EntityDao entityDao = service.create(airCompany);
-        return ResponseEntity.created( URI.create("/air-entity/" + entityDao.getEntityId())).build();
+    public ResponseEntity<?> save (@Valid @RequestBody EntityDtoRequest entity){
+
+        EntityDtoRequest entityDtoRequest = service.create(entity);
+        return ResponseEntity.created( URI.create("/entity/" + entityDtoRequest.getEntityId())).build();
     }
     @PatchMapping("{id}/update/parameters")
-    public ResponseEntity<EntityDao> updateParameters(@PathVariable("id")String id,
-                                                      @RequestParam(value = "type",required = false) Optional<String> entityType,
-                                                      @RequestParam(value = "name",required = false) Optional <String> entityName ,
-                                                      @RequestParam(value = "defaultBenchmarkId",required = false) Optional<String> defaultBenchmarkId) {
-        return new ResponseEntity<>(service.updateParametersEntity(id, entityType,entityName,defaultBenchmarkId), HttpStatus.OK);
+    public ResponseEntity<Entity> updateParameters(@PathVariable("id")String id,
+                                                             @RequestParam(value = "type",required = false) Optional<String> entityType,
+                                                             @RequestParam(value = "name",required = false) Optional <String> entityName ,
+                                                             @RequestParam(value = "defaultBenchmarkId",required = false) Optional<String> defaultBenchmarkId) {
+        return new ResponseEntity<>(service.updateParametersEntity(id, entityType,entityName,defaultBenchmarkId), HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<EntityDao> update(@PathVariable("id")String id, @RequestBody Entity entity) {
-        return new ResponseEntity<>(service.update(id,entity), HttpStatus.OK);
+    public ResponseEntity<Entity> update(@PathVariable("id")String id, @Valid @RequestBody EntityDtoRequest entity) {
+        return new ResponseEntity<>(service.update(id,entity), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable("id") String id){
-        service.deleteEntity(id);
+    public ResponseEntity<Entity> deleteById(@PathVariable("id") String id){
+      return  new ResponseEntity<>(service.deleteEntity(id), HttpStatus.ACCEPTED);
     }
+
     @DeleteMapping("/all")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteAll(){
         service.deleteAllEntity();
     }
-
-//    @ExceptionHandler(value = ResourceNotFoundException.class)
-//    public ResponseEntity<?> handlerNotFoundException (ResourceNotFoundException exception) {
-//        return (ResponseEntity<?>) ResponseEntity.notFound();
-//    }
 
 }

@@ -1,7 +1,8 @@
 package com.project.Investment.App.rest;
 
-import com.project.Investment.App.dao.PerfAggregateDao;
+import com.project.Investment.App.model.PerfAggregate;
 import com.project.Investment.App.service.PerfAggregateService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,11 @@ public class RestControllerPerfAggregate {
     }
 
     @GetMapping("{id}")
-    public PerfAggregateDao getById(@PathVariable(name = "id") Integer id) {
+    public PerfAggregate getById(@PathVariable(name = "id") Integer id) {
         return service.findById(id);
     }
     @GetMapping()
-    public List<PerfAggregateDao> getAll() {
+    public List<PerfAggregate> getAll() {
         return service.findAll();
     }
 

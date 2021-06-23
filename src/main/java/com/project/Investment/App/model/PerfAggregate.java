@@ -2,8 +2,7 @@ package com.project.Investment.App.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,7 +1,6 @@
 package com.project.Investment.App.service.impl;
 
-import com.project.Investment.App.dao.mapperJdbc.PerfAggregateMapper;
-import com.project.Investment.App.dao.PerfAggregateDao;
+import com.project.Investment.App.dto.mapperJdbc.PerfAggregateMapper;
 import com.project.Investment.App.exception.ResourceNotFoundException;
 import com.project.Investment.App.model.PerfAggregate;
 import com.project.Investment.App.service.PerfAggregateService;
@@ -26,22 +25,20 @@ public class PerfAggregateServiceImpl implements PerfAggregateService {
     }
 
     @Override
-    public PerfAggregateDao findById(Integer id) {
+    public PerfAggregate findById(Integer id) {
         PerfAggregate perfAggregate = jdbcTemplate.query("Select * from perf_aggregate where perf_aggregate_id=?",
                 new BeanPropertyRowMapper<>(PerfAggregate.class),
                 new Object[]{id})
                 .stream().findAny().orElseThrow(() -> new ResourceNotFoundException("PerfAggregate not found : " + id));
         log.info("Method: findById - PerfAggregate: {} find by id: {}",perfAggregate,id);
-        return PerfAggregateDao.fromPerfAggregate(perfAggregate);
+        return perfAggregate;
     }
 
     @Override
-    public List<PerfAggregateDao> findAll() {
-        List<PerfAggregateDao> perfAggregateDaos = new ArrayList<>();
+    public List<PerfAggregate> findAll() {
         List<PerfAggregate> perfAggregates = jdbcTemplate.query("Select * from perf_aggregate",new PerfAggregateMapper());
-        perfAggregates.forEach(perfAggregate -> perfAggregateDaos.add(PerfAggregateDao.fromPerfAggregate(perfAggregate)));
-        log.info("Method: getAll - {} PerfAggregate found" , perfAggregateDaos.size());
-        return new ArrayList<>(perfAggregateDaos);
+        log.info("Method: getAll - {} PerfAggregate found" , perfAggregates.size());
+        return new ArrayList<>(perfAggregates);
     }
 
     @Override

@@ -4,12 +4,15 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
+
 
 @javax.persistence.Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "entity")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 @Data
 public class Entity {
 
