@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Repository
-public interface EntityRepository extends JpaRepository<Entity,String> {
+public interface EntityRepository extends JpaRepository<Entity,String>{
 
 
     List<Entity> findByEntityId_EntityId(String id);

@@ -42,11 +42,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ListEmptyException.class)
-    public ResponseEntity<?> listEmptyExceptionHandling(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(new ErrorDetails(new Date(), "List completely empty, we have nothing to return", request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandling(Exception exception, WebRequest request) {
@@ -76,7 +71,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
         errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
     }
-    final ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+    final ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST, "Input field is incorrect", errors);
     return handleExceptionInternal(ex, validationError, headers, validationError.getStatus(), request);
 }
 }

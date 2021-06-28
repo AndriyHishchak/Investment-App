@@ -23,31 +23,31 @@ public class Runner implements CommandLineRunner {
                 .entityId((new EntityId("B001",LocalDate.parse("2020-02-09"))))
                 .entityName("Benchmark 1")
                 .entityType("Benchmark")
-                .defaultBenchmarkId("").build());
+                .defaultBenchmarkId(null).build());
 
         entities.add(Entity.builder()
                 .entityId(new EntityId("B002",LocalDate.parse("2020-03-10")))
                 .entityName("Benchmark 2")
                 .entityType("Benchmark")
-                .defaultBenchmarkId("").build());
+                .defaultBenchmarkId(null).build());
 
         entities.add(Entity.builder()
                 .entityId(new EntityId("B003",LocalDate.parse("2020-04-11")))
                 .entityName("Benchmark 3")
                 .entityType("Benchmark")
-                .defaultBenchmarkId("").build());
+                .defaultBenchmarkId(null).build());
 
         entities.add(Entity.builder()
                 .entityId(new EntityId("B004",LocalDate.parse("2020-05-12")))
                 .entityName("Benchmark 4")
                 .entityType("Benchmark")
-                .defaultBenchmarkId("").build());
+                .defaultBenchmarkId(null).build());
 
         entities.add(Entity.builder()
-                .entityId(new EntityId("B015",LocalDate.parse("2020-02-09")))
+                .entityId(new EntityId("B005",LocalDate.parse("2020-02-09")))
                 .entityName("Benchmark 5")
                 .entityType("Benchmark")
-                .defaultBenchmarkId("").build());
+                .defaultBenchmarkId(null).build());
 
         repository.saveAll(entities);
     }

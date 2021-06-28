@@ -16,6 +16,9 @@ import java.time.LocalDate;
 @Data
 public class PerfAggregate {
 
+    @Column(name = "entity_id")
+    String entityId;
+
     @Column(name = "effective_date")
     LocalDate effectiveDate;
 

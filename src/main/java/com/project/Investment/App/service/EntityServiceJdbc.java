@@ -6,18 +6,11 @@ import com.project.Investment.App.model.Entity;
 import java.util.List;
 import java.util.Optional;
 
-public interface EntityService {
-
+public interface EntityServiceJdbc {
     Entity findById (String id);
     Entity create (EntityDtoRequest entity);
-    List<Entity> getAll(Optional<String> name);
     List<Entity> getAll();
-    Entity updateParametersEntity(String id,
-                                            Optional<String> entityType,
-                                            Optional <String> entityName,
-                                            Optional<String> defaultBenchmarkId );
     Entity update (String id, EntityDtoRequest entity);
     Entity deleteEntity (String id);
-    void deleteAllEntity ();
     List<Entity> findByDefaultBenchmarkId(String id);
 }

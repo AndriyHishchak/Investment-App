@@ -1,6 +1,7 @@
 
 create table perf_aggregate
 (
+    entity_id         varchar(255),
     perf_aggregate_id integer not null,
     return            double,
     effective_date    date,
