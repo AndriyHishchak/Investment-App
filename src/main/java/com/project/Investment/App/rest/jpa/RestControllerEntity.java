@@ -1,4 +1,4 @@
-package com.project.Investment.App.rest;
+package com.project.Investment.App.rest.jpa;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
@@ -21,7 +21,7 @@ public class RestControllerEntity {
 
     private final EntityService service;
     @Autowired
-    public RestControllerEntity(@Qualifier("entityServiceImpl")EntityService service) {
+    public RestControllerEntity(@Qualifier("entityServiceJpa") EntityService service) {
         this.service = service;
     }
 

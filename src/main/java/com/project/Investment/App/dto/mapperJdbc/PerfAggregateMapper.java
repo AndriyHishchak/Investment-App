@@ -11,7 +11,7 @@ public class PerfAggregateMapper implements RowMapper<PerfAggregate> {
     public PerfAggregate mapRow(ResultSet rs, int rowNum) throws SQLException {
         return PerfAggregate.builder()
                 .entityId(rs.getString("entity_id"))
-                //.effectiveDate(rs.getDate("effectiveDate"))
+                .effectiveDate(rs.getDate("effective_date").toLocalDate())
                 .perfAggregateId(rs.getInt("perf_aggregate_id"))
                 .l1(rs.getString("l1"))
                 .l2(rs.getString("l2"))

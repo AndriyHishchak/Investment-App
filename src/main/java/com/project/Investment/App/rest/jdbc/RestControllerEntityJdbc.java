@@ -1,8 +1,9 @@
-package com.project.Investment.App.rest;
+package com.project.Investment.App.rest.jdbc;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.service.EntityService;
+import com.project.Investment.App.service.PerfAggregateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -20,11 +21,11 @@ import java.util.Optional;
 public class RestControllerEntityJdbc {
 
     private final EntityService service;
+
     @Autowired
-    public RestControllerEntityJdbc(@Qualifier("entityServiceJdbcImpl") EntityService service) {
+    public RestControllerEntityJdbc(@Qualifier("entityServiceJdbc") EntityService service) {
         this.service = service;
     }
-
 
     @GetMapping("{id}")
     public Entity getById(@PathVariable(name = "id") String id) {

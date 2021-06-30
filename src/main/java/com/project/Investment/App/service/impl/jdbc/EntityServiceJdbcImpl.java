@@ -1,14 +1,12 @@
-package com.project.Investment.App.service.impl;
+package com.project.Investment.App.service.impl.jdbc;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.exception.ResourceNotFoundException;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.EntityId;
 import com.project.Investment.App.service.EntityService;
-import com.project.Investment.App.service.EntityServiceJdbc;
+import com.project.Investment.App.service.impl.QuerySQL;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("entityServiceJdbc")
 @Slf4j
 public class EntityServiceJdbcImpl implements EntityService {
 
@@ -43,7 +41,7 @@ public class EntityServiceJdbcImpl implements EntityService {
     public Entity findById(String id) {
         Entity entity = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM entity WHERE entity_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.FIND_ENTITY_BY_ENTITY_ID_SQL);
             preparedStatement.setString(1,id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -67,8 +65,7 @@ public class EntityServiceJdbcImpl implements EntityService {
     public Entity create(EntityDtoRequest entity) {
 
         try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("INSERT INTO entity (entity_id, effective_date, entity_name, entity_type, default_benchmark_id) VALUES (?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.ADD_ENTITY_SQL);
 
             preparedStatement.setString(1,entity.getEntityId());
             preparedStatement.setDate(2, Date.valueOf(entity.getEffectiveDate()));
@@ -85,22 +82,15 @@ public class EntityServiceJdbcImpl implements EntityService {
         return EntityDtoRequest.fromEntityDtoResponse(entity);
     }
 
-    @Override
-    public List<Entity> getAll(Optional<String> name) {
-        return null;
-    }
 
-    @Override
-    public Entity updateParametersEntity(String id, Optional<String> entityType, Optional<String> entityName, Optional<String> defaultBenchmarkId) {
-        return null;
-    }
+
 
     @Override
     public List<Entity> getAll() {
             List<Entity> entities = new ArrayList<>();
             try {
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM entity");
+                ResultSet resultSet = statement.executeQuery(QuerySQL.FIND_ALL_ENTITY_SQL);
 
                 while (resultSet.next()) {
                     entities.add(
@@ -125,8 +115,7 @@ public class EntityServiceJdbcImpl implements EntityService {
     @Override
     public Entity update(String id, EntityDtoRequest updateEntity) {
         try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("UPDATE entity SET entity_id=?, effective_date=?, entity_name=?, entity_type=?, default_benchmark_id=? WHERE entity_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.UPDATE_ENTITY_SQL);
 
             preparedStatement.setString(1,updateEntity.getEntityId());
             preparedStatement.setDate(2,Date.valueOf(updateEntity.getEffectiveDate()));
@@ -147,8 +136,7 @@ public class EntityServiceJdbcImpl implements EntityService {
     @Override
     public Entity deleteEntity(String id) {
         try{
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("DELETE FROM entity WHERE entity_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.DELETE_ENTITY_BY_ENTITY_ID_SQL);
             preparedStatement.setString(1,id);
 
             preparedStatement.executeUpdate();
@@ -159,10 +147,7 @@ public class EntityServiceJdbcImpl implements EntityService {
         return null;
     }
 
-    @Override
-    public void deleteAllEntity() {
 
-    }
 
 
     @Override
@@ -170,7 +155,7 @@ public class EntityServiceJdbcImpl implements EntityService {
         List<Entity> entities = new ArrayList<>();
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM entity WHERE default_benchmark_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.FIND_ENTITY_BY_DEFAULT_BENCHMARK_ID_SQL);
 
             preparedStatement.setString(1,id);
 
@@ -191,4 +176,19 @@ public class EntityServiceJdbcImpl implements EntityService {
         log.info("Method: findById - entity: {} find by entity: {}",entities.size(),id);
         return entities;
     }
+
+    @Override
+    public List<Entity> getAll(Optional<String> name) {
+        return null;
+    }
+
+    @Override
+    public void deleteAllEntity() {
+    }
+
+    @Override
+    public Entity updateParametersEntity(String id, Optional<String> entityType, Optional<String> entityName, Optional<String> defaultBenchmarkId) {
+        return null;
+    }
+
 }

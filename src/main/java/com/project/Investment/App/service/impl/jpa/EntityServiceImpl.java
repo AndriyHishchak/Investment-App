@@ -1,4 +1,4 @@
-package com.project.Investment.App.service.impl;
+package com.project.Investment.App.service.impl.jpa;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.exception.ResourceNotFoundException;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("entityServiceJpa")
 @Slf4j
 public class EntityServiceImpl implements EntityService {
 

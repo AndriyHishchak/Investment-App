@@ -2,7 +2,9 @@ package com.project.Investment.App.service;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
+import com.project.Investment.App.model.PerfAggregate;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +22,5 @@ public interface EntityService {
     Entity deleteEntity (String id);
     void deleteAllEntity ();
     List<Entity> findByDefaultBenchmarkId(String id);
+
 }
