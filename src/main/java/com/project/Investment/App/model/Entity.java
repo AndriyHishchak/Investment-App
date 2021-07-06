@@ -1,5 +1,6 @@
 package com.project.Investment.App.model;
 
+import com.project.Investment.App.model.embeddedId.EntityId;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,8 +12,8 @@ import javax.persistence.*;
 @Table(name = "entity")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
-
 @Data
 public class Entity {
 
@@ -26,14 +27,5 @@ public class Entity {
     @Column(name = "default_benchmark_id")
     String defaultBenchmarkId;
 
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "entityId='" + entityId + '\'' +
-                ", entityName='" + entityName + '\'' +
-                ", entityType='" + entityType + '\'' +
-                ", defaultBenchmarkId='" + defaultBenchmarkId + '\'' +
 
-                '}';
-    }
 }

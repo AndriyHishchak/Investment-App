@@ -20,6 +20,7 @@ import java.util.Optional;
 public class RestControllerEntity {
 
     private final EntityService service;
+
     @Autowired
     public RestControllerEntity(@Qualifier("entityServiceJpa") EntityService service) {
         this.service = service;
@@ -36,35 +37,38 @@ public class RestControllerEntity {
     }
 
     @GetMapping()
-    public List<Entity> getAll(@RequestParam(value = "name",required = false) Optional<String> name ) {
-        return service.getAll( name );
+    public List<Entity> getAll(@RequestParam(value = "name", required = false) Optional<String> name) {
+        return service.getAll(name);
     }
+
     @PostMapping()
-    public ResponseEntity<?> save (@Valid @RequestBody EntityDtoRequest entity){
+    public ResponseEntity<?> save(@Valid @RequestBody EntityDtoRequest entity) {
 
         Entity entityDtoRequest = service.create(entity);
-        return ResponseEntity.created( URI.create("/entity/" + entityDtoRequest.getEntityId().getEntityId())).build();
+        return ResponseEntity.created(URI.create("/entity/" + entityDtoRequest.getEntityId().getEntityId())).build();
     }
+
     @PatchMapping("{id}/update/parameters")
-    public ResponseEntity<Entity> updateParameters(@PathVariable("id")String id,
-                                                             @RequestParam(value = "type",required = false) Optional<String> entityType,
-                                                             @RequestParam(value = "name",required = false) Optional <String> entityName ,
-                                                             @RequestParam(value = "defaultBenchmarkId",required = false) Optional<String> defaultBenchmarkId) {
-        return new ResponseEntity<>(service.updateParametersEntity(id, entityType,entityName,defaultBenchmarkId), HttpStatus.CREATED);
+    public ResponseEntity<Entity> updateParameters(@PathVariable("id") String id,
+                                                   @RequestParam(value = "type", required = false) Optional<String> entityType,
+                                                   @RequestParam(value = "name", required = false) Optional<String> entityName,
+                                                   @RequestParam(value = "defaultBenchmarkId", required = false) Optional<String> defaultBenchmarkId) {
+        return new ResponseEntity<>(service.updateParametersEntity(id, entityType, entityName, defaultBenchmarkId), HttpStatus.CREATED);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Entity> update(@PathVariable("id")String id, @Valid @RequestBody EntityDtoRequest entity) {
-        return new ResponseEntity<>(service.update(id,entity), HttpStatus.CREATED);
+    public ResponseEntity<Entity> update(@PathVariable("id") String id, @Valid @RequestBody EntityDtoRequest entity) {
+        return new ResponseEntity<>(service.update(id, entity), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Entity> deleteById(@PathVariable("id") String id){
-      return  new ResponseEntity<>(service.deleteEntity(id), HttpStatus.ACCEPTED);
+    public ResponseEntity<Entity> deleteById(@PathVariable("id") String id) {
+        return new ResponseEntity<>(service.deleteEntity(id), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/all")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteAll(){
+    public void deleteAll() {
         service.deleteAllEntity();
     }
 

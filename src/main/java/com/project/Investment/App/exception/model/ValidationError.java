@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 public class ValidationError {
 
-    private HttpStatus status;
-    private String message;
+    private final HttpStatus status;
+    private final String message;
     List<String> errors;
 
 }

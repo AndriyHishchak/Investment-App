@@ -2,7 +2,7 @@ package com.project.Investment.App.dto;
 
 import com.project.Investment.App.dto.validator.UniqueDefaultBenchmarkId;
 import com.project.Investment.App.model.Entity;
-import com.project.Investment.App.model.EntityId;
+import com.project.Investment.App.model.embeddedId.EntityId;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -38,8 +38,9 @@ public class EntityDtoRequest {
                 .effectiveDate(entity.getEntityId().getEffectiveDate())
                 .build();
     }
+
     public static Entity fromEntityDtoResponse(EntityDtoRequest entity) {
-        EntityId entityId = new EntityId(entity.getEntityId(),entity.getEffectiveDate());
+        EntityId entityId = new EntityId(entity.getEntityId(), entity.getEffectiveDate());
         return Entity.builder()
                 .entityId(entityId)
                 .entityName(entity.getEntityName())

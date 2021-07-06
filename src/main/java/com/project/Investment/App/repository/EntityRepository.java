@@ -9,11 +9,14 @@ import java.util.List;
 
 
 @Repository
-public interface EntityRepository extends JpaRepository<Entity,String>{
+public interface EntityRepository extends JpaRepository<Entity, String> {
 
 
     List<Entity> findByEntityId_EntityId(String id);
+
     List<Entity> findByEntityName(String name);
+
     List<Entity> findByDefaultBenchmarkId(String id);
+
     boolean existsEntityByDefaultBenchmarkId(String defaultBenchmarkId);
 }

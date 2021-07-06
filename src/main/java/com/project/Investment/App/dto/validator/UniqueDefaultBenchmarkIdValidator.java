@@ -6,10 +6,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 
+public class UniqueDefaultBenchmarkIdValidator implements ConstraintValidator<UniqueDefaultBenchmarkId, String> {
 
-public class UniqueDefaultBenchmarkIdValidator implements ConstraintValidator<UniqueDefaultBenchmarkId,String> {
-
-  private final EntityRepository repository;
+    private final EntityRepository repository;
 
     public UniqueDefaultBenchmarkIdValidator(EntityRepository repository) {
         this.repository = repository;

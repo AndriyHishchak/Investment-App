@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UniqueDefaultBenchmarkIdValidator.class)
 public @interface UniqueDefaultBenchmarkId {
     String message() default "No value is present in DB";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
