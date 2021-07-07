@@ -13,6 +13,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
+/**
+ * This class implements the interface GeneratorFile
+ *
+ * @author Andriy Hishchak
+ */
 @Service("generatorFileSql")
 public class GeneratorFileSqlImpl implements GeneratorFile {
 
@@ -37,20 +42,31 @@ public class GeneratorFileSqlImpl implements GeneratorFile {
         this.generatorPosition = generatorPosition;
     }
 
+    /**
+     * The method creates and writes a file
+     *
+     * @param file      file name
+     * @param positions list of all Positions
+     */
     @Override
     public void createFileAndWriteToFile(String file, List<Position> positions) {
 
         try (BufferedWriter bw = Files.newBufferedWriter(Path.of(path + "/" + file),
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-            bw.write(content(positions));
+            bw.write(getContent(positions));
             bw.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * The method returns the content to save the file
+     *
+     * @param positions list of all Positions
+     */
     @Override
-    public String content(List<Position> positions) {
+    public String getContent(List<Position> positions) {
 
         StringBuilder sb = new StringBuilder();
 

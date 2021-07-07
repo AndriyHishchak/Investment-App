@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import static java.lang.Math.abs;
+
 public class BigFunctions {
 
     private static final MathContext mc = new MathContext(6);
 
     public static Double round(Double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0) throw new IllegalArgumentException("Rounding a number is incorrect");
 
         BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(places, RoundingMode.HALF_UP);
@@ -50,6 +52,6 @@ public class BigFunctions {
 
 
     public static boolean equals(Double d1, Double d2) {
-        return round(d1, 6).equals(d2);
+        return abs(d1 - d2) < 1E-7;
     }
 }
