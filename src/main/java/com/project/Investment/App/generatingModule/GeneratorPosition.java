@@ -31,6 +31,7 @@ public class GeneratorPosition {
      * @param group     an array containing the number of groups and consisting of the number of subgroups and the number of records for the subgroup.
      * @return list of positions
      */
+
     public List<Position> generatorPositions(LocalDate startDate, String entityId, int total, Integer[][] group) {
         List<Position> positions = new ArrayList<>();
         Map<Integer, Integer> securityIdAndAggregateID = generatorMapGroup(group);
@@ -64,9 +65,9 @@ public class GeneratorPosition {
                 int firstPosition = positions.size() - securityIdAndAggregateID.size();
                 Double yesterdayTotal = getYesterdayTotal(positions, firstPosition);
 
-                for (int i = 0, securityId = 1, indexPositions = firstPosition; i < securityIdAndAggregateID.size(); i++, securityId++, indexPositions++) {
+                for (int i = 0, securityId = 1, firstIndexPositionForPreviousDay = firstPosition; i < securityIdAndAggregateID.size(); i++, securityId++, firstIndexPositionForPreviousDay++) {
 
-                    Double bmvGross = positions.get(indexPositions).getEmvGross();
+                    Double bmvGross = positions.get(firstIndexPositionForPreviousDay).getEmvGross();
                     Double emvGross = getEmvGross(bmvGross);
 
                     Position position = Position.builder()
