@@ -32,7 +32,7 @@ public class GeneratorPosition {
      * @return list of positions
      */
 
-    public List<Position> generateDataForPosition(LocalDate startDate, String entityId, int total, Integer[][] group) {
+    public List<Position> generateDataForPositions(LocalDate startDate, String entityId, int total, Integer[][] group) {
         List<Position> positions = new ArrayList<>();
         Map<Integer, Integer> securityIdAndAggregateID = generatorMapGroup(group);
         Double[] StartBmv = getDistributionBmv(securityIdAndAggregateID, total);
