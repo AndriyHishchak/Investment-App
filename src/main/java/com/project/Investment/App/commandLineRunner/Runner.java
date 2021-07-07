@@ -25,7 +25,7 @@ public class Runner implements CommandLineRunner {
 
         if (false) {
             List<Position> positions = generatorPosition
-                    .generatorPositions(
+                    .generateDataForPosition(
                             LocalDate.parse("2021-01-01"),
                             "F001",
                             1000000,
