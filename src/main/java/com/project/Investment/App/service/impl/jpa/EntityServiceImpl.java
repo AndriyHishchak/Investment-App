@@ -6,8 +6,6 @@ import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.repository.EntityRepository;
 import com.project.Investment.App.service.EntityService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class EntityServiceImpl implements EntityService {
     public Entity findById(String id) throws ResourceNotFoundException {
         Entity entity = repository.findByEntityId_EntityId(id).stream().findAny()
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found : " + id));
-        log.info("Method: findById - entity: {} find by id: {}",entity,id);
+        log.info("Method: findById - entity: {} find by id: {}", entity, id);
 
         return entity;
     }
@@ -36,16 +34,17 @@ public class EntityServiceImpl implements EntityService {
     @Override
     public List<Entity> findByDefaultBenchmarkId(String id) throws ResourceNotFoundException {
         List<Entity> entities = repository.findByDefaultBenchmarkId(id);
-        log.info("Method: findById - entity: {} find by entity: {}",entities.size(),id);
+        log.info("Method: findById - entity: {} find by entity: {}", entities.size(), id);
         return entities;
     }
-    @Override
-    public Entity create (EntityDtoRequest entity) {
 
-            Entity entitySave = repository.save(EntityDtoRequest.fromEntityDtoResponse(entity));
-            EntityDtoRequest result = EntityDtoRequest.fromEntity(entitySave);
-            log.info("Method: create - created entity: {} successfully created : ", result);
-            return entitySave;
+    @Override
+    public Entity create(EntityDtoRequest entity) {
+
+        Entity entitySave = repository.save(EntityDtoRequest.fromEntityDtoResponse(entity));
+        EntityDtoRequest result = EntityDtoRequest.fromEntity(entitySave);
+        log.info("Method: create - created entity: {} successfully created : ", result);
+        return entitySave;
     }
 
     @Override
@@ -80,30 +79,34 @@ public class EntityServiceImpl implements EntityService {
         log.info("Method: update - entity with id : {} ", id);
         return repository.save(entityRefresh);
     }
+
     @Override
     public Entity updateParametersEntity(String id,
-                                                   Optional<String> entityType,
-                                                   Optional <String> entityName,
-                                                   Optional<String> defaultBenchmarkId ) {
+                                         Optional<String> entityType,
+                                         Optional<String> entityName,
+                                         Optional<String> defaultBenchmarkId) {
         Entity entity = repository.findByEntityId_EntityId(id).stream().findAny()
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found : " + id));
         if (entityName.isPresent()) {
             entity.setEntityName(entityName.get());
-            log.info("Method: updateParametersEntity - update name entity - Entity with id : {} ", id); }
+            log.info("Method: updateParametersEntity - update name entity - Entity with id : {} ", id);
+        }
         if (entityType.isPresent()) {
             entity.setEntityType(entityType.get());
-            log.info("Method: updateParametersEntity - update type entity - Entity with id : {} ", id); }
+            log.info("Method: updateParametersEntity - update type entity - Entity with id : {} ", id);
+        }
         if (defaultBenchmarkId.isPresent()) {
             entity.setDefaultBenchmarkId(defaultBenchmarkId.get());
-            log.info("Method: updateParametersEntity - update defaultBenchmarkId - Entity with id : {}", id );
+            log.info("Method: updateParametersEntity - update defaultBenchmarkId - Entity with id : {}", id);
         }
         log.info("Method: updateParametersEntity - finish update model Entity - Entity with id : {} ", id);
 
         return repository.save(entity);
     }
+
     @Override
     public Entity deleteEntity(String id) {
-       Entity entity = repository.findByEntityId_EntityId(id).stream().findAny()
+        Entity entity = repository.findByEntityId_EntityId(id).stream().findAny()
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found : " + id));
         repository.delete(entity);
         log.info("Method: deleteEntity - delete Entity with id : {} ", id);

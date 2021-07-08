@@ -13,10 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class ErrorDetails {
 
-     Date timestamp;
-     String message;
-     String details;
-
+    Date timestamp;
+    String message;
+    String details;
 
 
 }

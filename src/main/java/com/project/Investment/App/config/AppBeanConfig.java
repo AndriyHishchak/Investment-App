@@ -16,7 +16,7 @@ public class AppBeanConfig {
     }
 
     @Bean
-    public Runner runner () {
+    public Runner runner() {
         return new Runner();
     }
 }

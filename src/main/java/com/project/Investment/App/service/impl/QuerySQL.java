@@ -11,7 +11,7 @@ public class QuerySQL {
 
     public static final String ADD_PERF_AGGREGATE_SQL = "INSERT INTO perf_aggregate (entity_id,effective_date,perf_aggregate_id,l1,l2,l3,weight,return) VALUES (?,?,?,?,?,?,?,?)";
     public static final String FIND_ALL_PERF_AGGREGATE_SQL = "SELECT * FROM perf_Aggregate";
-    public static final String FIND_COUNT_ALL_PERF_AGGREGATE= "Select Count(*) from perf_aggregate";
+    public static final String FIND_COUNT_ALL_PERF_AGGREGATE = "Select Count(*) from perf_aggregate";
     public static final String FIND_PERF_AGGREGATE_BY_DATE_RANGE = "select * from perf_aggregate where effective_date between ? and ?";
     public static final String DELETE_PERF_AGGREGATE_BY_PERF_AGGREGATE_ID_SQL = "DELETE FROM perf_aggregate WHERE perf_aggregate_id=?";
     public static final String FIND_PERF_AGGREGATE_BY_PERF_AGGREGATE_ID_SQL = "SELECT * FROM perf_Aggregate WHERE perf_Aggregate_id=?";

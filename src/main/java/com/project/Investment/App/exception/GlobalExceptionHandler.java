@@ -25,23 +25,8 @@ import java.util.Date;
 import java.util.List;
 
 
-
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> resourceNotFoundExceptionHandling(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(new ErrorDetails(new Date(), "No value is present in DB, Please change your request", request.getDescription(false)),
-                HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(EmptyInputException.class)
-    public ResponseEntity<?> emptyInputExceptionHandling(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(new ErrorDetails(new Date(), "Input field is Empty, Please look into it", request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
-    }
-
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandling(Exception exception, WebRequest request) {
@@ -62,16 +47,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-    logger.info(ex.getClass().getName());
+        logger.info(ex.getClass().getName());
 
-    final List<String> errors = new ArrayList<String>();
-    for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
-        errors.add(error.getField() + ": " + error.getDefaultMessage());
+        final List<String> errors = new ArrayList<>();
+        for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.add(error.getField() + ": " + error.getDefaultMessage());
+        }
+        for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+        }
+        final ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST, "Input field is incorrect", errors);
+        return handleExceptionInternal(ex, validationError, headers, validationError.getStatus(), request);
     }
-    for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-        errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-    }
-    final ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST, "Input field is incorrect", errors);
-    return handleExceptionInternal(ex, validationError, headers, validationError.getStatus(), request);
-}
 }
