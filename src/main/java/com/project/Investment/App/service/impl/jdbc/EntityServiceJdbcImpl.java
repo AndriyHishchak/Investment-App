@@ -18,24 +18,10 @@ import java.util.Optional;
 @Slf4j
 public class EntityServiceJdbcImpl implements EntityService {
 
-    private static final String URL = "jdbc:h2:mem:investment";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "";
+    private final Connection connection;
 
-    private static Connection connection;
-
-    static {
-        try {
-            Class.forName("org.h2.Driver");
-        } catch (ClassNotFoundException sqlException) {
-            sqlException.printStackTrace();
-        }
-
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
+    public EntityServiceJdbcImpl( Connection connection) {
+        this.connection = connection;
     }
 
     @Override
