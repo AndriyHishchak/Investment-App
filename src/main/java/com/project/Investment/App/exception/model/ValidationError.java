@@ -1,17 +1,24 @@
 package com.project.Investment.App.exception.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Data
 @AllArgsConstructor
-@Getter
+@NoArgsConstructor
 public class ValidationError {
 
-    private final HttpStatus status;
-    private final String message;
-    List<String> errors;
+    Date timestamp;
+    HttpStatus status;
+    String message;
+    String details;
+    Map<String, String> errors;
 
 }
