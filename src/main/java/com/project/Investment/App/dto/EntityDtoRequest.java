@@ -24,7 +24,7 @@ public class EntityDtoRequest {
     String entityType;
     @NotNull(message = "Effective Date should not be empty")
     LocalDate effectiveDate;
-    @UniqueDefaultBenchmarkId
+
     String defaultBenchmarkId;
 
 

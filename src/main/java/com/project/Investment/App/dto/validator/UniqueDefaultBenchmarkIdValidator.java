@@ -16,6 +16,6 @@ public class UniqueDefaultBenchmarkIdValidator implements ConstraintValidator<Un
 
     @Override
     public boolean isValid(String defaultBenchmarkId, ConstraintValidatorContext context) {
-        return repository.existsEntityByDefaultBenchmarkId(defaultBenchmarkId);
+        return false;
     }
 }
