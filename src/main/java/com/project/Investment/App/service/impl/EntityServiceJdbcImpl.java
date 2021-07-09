@@ -1,11 +1,11 @@
-package com.project.Investment.App.service.impl.jdbc;
+package com.project.Investment.App.service.impl;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.exception.ResourceNotFoundException;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
 import com.project.Investment.App.service.EntityService;
-import com.project.Investment.App.service.impl.QuerySQL;
+import com.project.Investment.App.service.QuerySQL;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

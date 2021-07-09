@@ -14,8 +14,9 @@ public class UniqueDefaultBenchmarkIdValidator implements ConstraintValidator<Un
         this.repository = repository;
     }
 
+    //TODO implement UniqueDefaultBenchmarkIdValidator validation for the responseEntity model
     @Override
     public boolean isValid(String defaultBenchmarkId, ConstraintValidatorContext context) {
-        return repository.existsEntityByDefaultBenchmarkId(defaultBenchmarkId);
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-package com.project.Investment.App.service.impl;
+package com.project.Investment.App.service;
 
 public class QuerySQL {
 
