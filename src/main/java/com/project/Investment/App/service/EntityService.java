@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface EntityService {
 
-    Entity findById(String id);
+    List<Entity> findById(String id,
+                          Optional<LocalDate> effectiveDate ,
+                          Optional<Integer> limit);
 
     Entity create(EntityDtoRequest entity);
 

@@ -5,7 +5,7 @@ public class QuerySQL {
     public static final String ADD_ENTITY_SQL = "INSERT INTO entity (entity_id, effective_date, entity_name, entity_type, default_benchmark_id) VALUES (?,?,?,?,?)";
     public static final String UPDATE_ENTITY_SQL = "UPDATE entity SET entity_id=?, effective_date=?, entity_name=?, entity_type=?, default_benchmark_id=? WHERE entity_id=?";
     public static final String FIND_ALL_ENTITY_SQL = "SELECT * FROM entity";
-    public static final String FIND_ENTITY_BY_ENTITY_ID_SQL = "SELECT * FROM entity WHERE entity_id=?";
+    public static final String FIND_ENTITY_BY_ENTITY_ID_SQL = "SELECT * FROM entity WHERE entity_id=? or entity_id=? and effective_date=? limit ?";
     public static final String DELETE_ENTITY_BY_ENTITY_ID_SQL = "DELETE FROM entity WHERE entity_id=?";
     public static final String FIND_ENTITY_BY_DEFAULT_BENCHMARK_ID_SQL = "SELECT * FROM entity WHERE default_benchmark_id=?";
 

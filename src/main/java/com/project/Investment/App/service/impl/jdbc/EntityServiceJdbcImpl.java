@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,25 +26,43 @@ public class EntityServiceJdbcImpl implements EntityService {
     }
 
     @Override
-    public Entity findById(String id) {
-        Entity entity = null;
+    public List<Entity> findById(String id, Optional<LocalDate> effectiveDate, Optional<Integer> limit) {
+        List<Entity> entity = new ArrayList<>();
         try {
+            ResultSet resultSet = null;
             PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.FIND_ENTITY_BY_ENTITY_ID_SQL);
-            preparedStatement.setString(1, id);
+            if (limit.isPresent()) {
+                preparedStatement.setString(1, id);
+                preparedStatement.setString(2, id);
+                preparedStatement.setDate(3, null);
+                preparedStatement.setInt(4, limit.get());
+            }
+            if (effectiveDate.isPresent()) {
+                preparedStatement.setString(1, id);
+                preparedStatement.setString(2, id);
+                preparedStatement.setDate(3, Date.valueOf(effectiveDate.get()));
+                preparedStatement.setInt(4, 1);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            entity = Entity.builder()
-                    .entityId(new EntityId(
-                            resultSet.getString("entity_id"),
-                            resultSet.getDate("effective_date").toLocalDate()))
-                    .entityName(resultSet.getString("entity_name"))
-                    .entityType(resultSet.getString("entity_type"))
-                    .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            }
+            if (effectiveDate.isEmpty() && limit.isEmpty()) {
+                preparedStatement.setString(1, id);
+                preparedStatement.setString(2, id);
+                preparedStatement.setDate(3, null);
+                preparedStatement.setInt(4, 1);
+            }
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                entity.add(Entity.builder()
+                        .entityId(new EntityId(
+                                resultSet.getString("entity_id"),
+                                resultSet.getDate("effective_date").toLocalDate()))
+                        .entityName(resultSet.getString("entity_name"))
+                        .entityType(resultSet.getString("entity_type"))
+                        .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        if (entity == null) throw new ResourceNotFoundException();
         log.info("Method: findById - entity: {} find by id: {}", entity, id);
         return entity;
     }
