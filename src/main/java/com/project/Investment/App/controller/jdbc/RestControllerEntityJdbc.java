@@ -33,11 +33,12 @@ public class RestControllerEntityJdbc {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "effectiveDate", required = false) Optional<LocalDate> effectiveDate,
             @RequestParam(value = "limit") Optional<Integer> limit
     ) {
-        return  ResponseEntity.status(HttpStatus.OK).body(service.findById(id, effectiveDate, limit)));
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id, effectiveDate, limit)));
     }
+
     @GetMapping("/benchmarkId/{id}")
     public ResponseEntity<List<Entity>> getByDefaultBenchmarkId(@PathVariable(name = "id") String id) {
-        return  ResponseEntity.status(HttpStatus.OK).body(service.findByDefaultBenchmarkId(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.findByDefaultBenchmarkId(id));
     }
 
     @GetMapping()
@@ -59,7 +60,7 @@ public class RestControllerEntityJdbc {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Entity> deleteById(@PathVariable("id") String id) {
-        return  ResponseEntity.status(HttpStatus.ACCEPTED).body(service.deleteEntity(id));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.deleteEntity(id));
     }
 
 }
