@@ -1,7 +1,8 @@
-package com.project.Investment.App.rest.jdbc;
+package com.project.Investment.App.controller.jpa;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
+
 import com.project.Investment.App.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,13 +16,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/entity/jdbc/")
-public class RestControllerEntityJdbc {
+@RequestMapping("/v1/entity/")
+public class RestControllerEntity {
 
     private final EntityService service;
 
     @Autowired
-    public RestControllerEntityJdbc(@Qualifier("entityServiceJdbc") EntityService service) {
+    public RestControllerEntity(@Qualifier("entityServiceJpa") EntityService service) {
         this.service = service;
     }
 
@@ -37,7 +38,7 @@ public class RestControllerEntityJdbc {
 
     @GetMapping()
     public List<Entity> getAll(@RequestParam(value = "name", required = false) Optional<String> name) {
-        return service.getAll();
+        return service.getAll(name);
     }
 
     @PostMapping()
@@ -45,6 +46,14 @@ public class RestControllerEntityJdbc {
 
         Entity entityDtoRequest = service.create(entity);
         return ResponseEntity.created(URI.create("/entity/" + entityDtoRequest.getEntityId().getEntityId())).build();
+    }
+
+    @PatchMapping("{id}/update/parameters")
+    public ResponseEntity<Entity> updateParameters(@PathVariable("id") String id,
+                                                   @RequestParam(value = "type", required = false) Optional<String> entityType,
+                                                   @RequestParam(value = "name", required = false) Optional<String> entityName,
+                                                   @RequestParam(value = "defaultBenchmarkId", required = false) Optional<String> defaultBenchmarkId) {
+        return new ResponseEntity<>(service.updateParametersEntity(id, entityType, entityName, defaultBenchmarkId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -55,6 +64,12 @@ public class RestControllerEntityJdbc {
     @DeleteMapping("/{id}")
     public ResponseEntity<Entity> deleteById(@PathVariable("id") String id) {
         return new ResponseEntity<>(service.deleteEntity(id), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/all")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteAll() {
+        service.deleteAllEntity();
     }
 
 }
