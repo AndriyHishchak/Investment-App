@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/entity")
+@RequestMapping("/entities")
 public class RestControllerEntityJdbc {
 
     private final EntityService service;
@@ -33,34 +33,34 @@ public class RestControllerEntityJdbc {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "effectiveDate", required = false) Optional<LocalDate> effectiveDate,
             @RequestParam(value = "limit") Optional<Integer> limit
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id, effectiveDate, limit)));
+        return ResponseEntity.ok(service.findById(id, effectiveDate, limit));
     }
 
     @GetMapping("/benchmarkId/{id}")
     public ResponseEntity<List<Entity>> getByDefaultBenchmarkId(@PathVariable(name = "id") String id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findByDefaultBenchmarkId(id));
+        return ResponseEntity.ok(service.findByDefaultBenchmarkId(id));
     }
 
     @GetMapping()
     public ResponseEntity<List<Entity>> getAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
+        return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping()
     public ResponseEntity<?> save(@Valid @RequestBody EntityDtoRequest entity) {
 
         Entity entityDtoRequest = service.create(entity);
-        return ResponseEntity.created(URI.create("/entity/" + entityDtoRequest.getEntityId().getEntityId())).build();
+        return ResponseEntity.created(URI.create("/entities/" + entityDtoRequest.getEntityId().getEntityId())).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Entity> update(@PathVariable("id") String id, @Valid @RequestBody EntityDtoRequest entity) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, entity));
+        return ResponseEntity.ok(service.update(id, entity));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Entity> deleteById(@PathVariable("id") String id) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.deleteEntity(id));
+        return ResponseEntity.accepted().body(service.deleteEntity(id));
     }
 
 }
