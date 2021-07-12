@@ -42,7 +42,7 @@ public class RestControllerEntityJdbc {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Entity>> getAll(@RequestParam(value = "name", required = false) Optional<String> name) {
+    public ResponseEntity<List<Entity>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
