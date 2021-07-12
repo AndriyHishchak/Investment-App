@@ -41,12 +41,12 @@ public class AppBeanConfig {
             sqlException.printStackTrace();
         }
         try {
-            Connection  connection = DriverManager.getConnection( URL, USERNAME, PASSWORD);
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             log.info("Database connection successful");
             return connection;
         } catch (Exception ex) {
             log.info("GetConnection() Error --> {}", ex.getMessage());
-             throw new IllegalArgumentException("Incorrect data for the connection from the database");
+            throw new IllegalArgumentException("Incorrect data for the connection from the database");
         }
     }
 }
