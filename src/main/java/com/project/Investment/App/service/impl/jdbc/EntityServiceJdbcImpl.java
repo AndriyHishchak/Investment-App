@@ -1,7 +1,6 @@
 package com.project.Investment.App.service.impl.jdbc;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
-import com.project.Investment.App.exception.ResourceNotFoundException;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
 import com.project.Investment.App.service.EntityService;
@@ -10,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,40 +19,28 @@ import java.util.Optional;
 @Slf4j
 public class EntityServiceJdbcImpl implements EntityService {
 
+
     private final Connection connection;
 
-    public EntityServiceJdbcImpl( Connection connection) {
+    public EntityServiceJdbcImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
     public List<Entity> findById(String id, Optional<LocalDate> effectiveDate, Optional<Integer> limit) {
-        List<Entity> entity = new ArrayList<>();
-        try {
-            ResultSet resultSet = null;
-            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.FIND_ENTITY_BY_ENTITY_ID_SQL);
-            if (limit.isPresent()) {
-                preparedStatement.setString(1, id);
-                preparedStatement.setString(2, id);
-                preparedStatement.setDate(3, null);
-                preparedStatement.setInt(4, limit.get());
-            }
-            if (effectiveDate.isPresent()) {
-                preparedStatement.setString(1, id);
-                preparedStatement.setString(2, id);
-                preparedStatement.setDate(3, Date.valueOf(effectiveDate.get()));
-                preparedStatement.setInt(4, 1);
+        List<Entity> entities = new ArrayList<>();
 
-            }
-            if (effectiveDate.isEmpty() && limit.isEmpty()) {
-                preparedStatement.setString(1, id);
-                preparedStatement.setString(2, id);
-                preparedStatement.setDate(3, null);
-                preparedStatement.setInt(4, 1);
-            }
-            resultSet = preparedStatement.executeQuery();
+        String FIND_ENTITY_BY_ENTITY_ID_OR_EFFECTIVE_DATE_SQL = MessageFormat.format(
+                "SELECT * FROM entity WHERE " +
+                        (effectiveDate.isPresent() ?
+                                "entity_id=''{0}'' and effective_date=''{1}''" : "entity_id=''{0}'' ") +
+                        "limit {2}", id, effectiveDate.orElse(null), limit.orElse(null));
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ENTITY_BY_ENTITY_ID_OR_EFFECTIVE_DATE_SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                entity.add(Entity.builder()
+                entities.add(Entity.builder()
                         .entityId(new EntityId(
                                 resultSet.getString("entity_id"),
                                 resultSet.getDate("effective_date").toLocalDate()))
@@ -63,8 +51,8 @@ public class EntityServiceJdbcImpl implements EntityService {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        log.info("Method: findById - entity: {} find by id: {}", entity, id);
-        return entity;
+        log.info("Method: findById - entity: {} find by id: {}", entities, id);
+        return entities;
     }
 
     @Override
