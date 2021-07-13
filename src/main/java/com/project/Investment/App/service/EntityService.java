@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface EntityService {
 
     List<Entity> findById(String id,
-                          Optional<LocalDate> effectiveDate ,
-                          Optional<Integer> limit);
+                          LocalDate effectiveDate ,
+                          Integer limit);
 
     Entity create(EntityDtoRequest entity);
 

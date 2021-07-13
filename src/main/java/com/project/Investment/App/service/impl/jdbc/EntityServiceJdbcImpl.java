@@ -4,7 +4,8 @@ import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
 import com.project.Investment.App.service.EntityService;
-import com.project.Investment.App.service.impl.QuerySQL;
+import com.project.Investment.App.service.QuerySQL;
+import com.project.Investment.App.service.SqlUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +28,14 @@ public class EntityServiceJdbcImpl implements EntityService {
     }
 
     @Override
-    public List<Entity> findById(String id, Optional<LocalDate> effectiveDate, Optional<Integer> limit) {
+    public List<Entity> findById(String id, LocalDate effectiveDate, Integer limit) {
         List<Entity> entities = new ArrayList<>();
 
         String FIND_ENTITY_BY_ENTITY_ID_OR_EFFECTIVE_DATE_SQL = MessageFormat.format(
-                "SELECT * FROM entity WHERE " +
-                        (effectiveDate.isPresent() ?
-                                "entity_id=''{0}'' and effective_date=''{1}''" : "entity_id=''{0}'' ") +
-                        "limit {2}", id, effectiveDate.orElse(null), limit.orElse(null));
+                QuerySQL.FIND_ENTITY_BY_ENTITY_ID_SQL +
+                        SqlUtil.IsPresentParameter(effectiveDate, " and effective_date=''{1}'' ") +
+                        SqlUtil.IsPresentParameter(limit, " limit {2} "),
+                id, effectiveDate, limit);
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ENTITY_BY_ENTITY_ID_OR_EFFECTIVE_DATE_SQL);

@@ -5,12 +5,14 @@ import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +27,13 @@ public class RestControllerEntityJdbc {
         this.service = service;
     }
 
-    @GetMapping("{id}")
-    public Entity getById(@PathVariable(name = "id") String id) {
-        return service.findById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Entity>> getById(
+            @PathVariable(name = "id") String id,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "effectiveDate", required = false) LocalDate effectiveDate,
+            @RequestParam(value = "limit", required = false) Integer limit
+    ) {
+        return  ResponseEntity.status(HttpStatus.OK).body(service.findById(id, effectiveDate, limit));
     }
 
     @GetMapping("/DefaultBenchmarkId/{DefaultBenchmarkId}")
