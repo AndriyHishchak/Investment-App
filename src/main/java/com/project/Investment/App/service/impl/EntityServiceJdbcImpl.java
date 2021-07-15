@@ -1,11 +1,14 @@
-package com.project.Investment.App.service.impl.jdbc;
+package com.project.Investment.App.service.impl;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
 import com.project.Investment.App.service.EntityService;
 import com.project.Investment.App.service.QuerySQL;
+<<<<<<< HEAD:src/main/java/com/project/Investment/App/service/impl/jdbc/EntityServiceJdbcImpl.java
 import com.project.Investment.App.service.SqlUtil;
+=======
+>>>>>>> bc5f0e7dde63816fb6fd5f0b2fc6b7ed6629fc91:src/main/java/com/project/Investment/App/service/impl/EntityServiceJdbcImpl.java
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
