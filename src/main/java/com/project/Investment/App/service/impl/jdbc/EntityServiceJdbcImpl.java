@@ -1,15 +1,17 @@
 package com.project.Investment.App.service.impl.jdbc;
 
 import com.project.Investment.App.dto.EntityDtoRequest;
-import com.project.Investment.App.exception.ResourceNotFoundException;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
 import com.project.Investment.App.service.EntityService;
-import com.project.Investment.App.service.impl.QuerySQL;
+import com.project.Investment.App.service.QuerySQL;
+import com.project.Investment.App.service.SqlUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,48 +20,40 @@ import java.util.Optional;
 @Slf4j
 public class EntityServiceJdbcImpl implements EntityService {
 
-    private static final String URL = "jdbc:h2:mem:investment";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "";
 
-    private static Connection connection;
+    private final Connection connection;
 
-    static {
-        try {
-            Class.forName("org.h2.Driver");
-        } catch (ClassNotFoundException sqlException) {
-            sqlException.printStackTrace();
-        }
-
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
+    public EntityServiceJdbcImpl(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
-    public Entity findById(String id) {
-        Entity entity = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(QuerySQL.FIND_ENTITY_BY_ENTITY_ID_SQL);
-            preparedStatement.setString(1, id);
+    public List<Entity> findById(String id, LocalDate effectiveDate, Integer limit) {
+        List<Entity> entities = new ArrayList<>();
 
+        String FIND_ENTITY_BY_ENTITY_ID_OR_EFFECTIVE_DATE_SQL = MessageFormat.format(
+                QuerySQL.FIND_ENTITY_BY_ENTITY_ID_SQL +
+                        SqlUtil.IsPresentParameter(effectiveDate, " and effective_date=''{1}'' ") +
+                        SqlUtil.IsPresentParameter(limit, " limit {2} "),
+                id, effectiveDate, limit);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ENTITY_BY_ENTITY_ID_OR_EFFECTIVE_DATE_SQL);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            entity = Entity.builder()
-                    .entityId(new EntityId(
-                            resultSet.getString("entity_id"),
-                            resultSet.getDate("effective_date").toLocalDate()))
-                    .entityName(resultSet.getString("entity_name"))
-                    .entityType(resultSet.getString("entity_type"))
-                    .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            while (resultSet.next()) {
+                entities.add(Entity.builder()
+                        .entityId(new EntityId(
+                                resultSet.getString("entity_id"),
+                                resultSet.getDate("effective_date").toLocalDate()))
+                        .entityName(resultSet.getString("entity_name"))
+                        .entityType(resultSet.getString("entity_type"))
+                        .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        if (entity == null) throw new ResourceNotFoundException();
-        log.info("Method: findById - entity: {} find by id: {}", entity, id);
-        return entity;
+        log.info("Method: findById - entity: {} find by id: {}", entities, id);
+        return entities;
     }
 
     @Override
