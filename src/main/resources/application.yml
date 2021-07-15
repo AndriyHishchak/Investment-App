@@ -11,16 +11,15 @@ spring:
         url: jdbc:h2:mem:investment;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
         driver-class-name: org.h2.Driver
         user: sa
-        password:
+        password: ${DATASOURSE_PASSWORD}
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         show-sql: true
-#        hibernate :
-#            ddl-auto : create
+
 
 flyway:
     user: sa
-    password:
+    password: ${DATASOURSE_PASSWORD}
     schemas: investment
     url: jdbc:h2:mem:investment
     locations: classpath:db/migration
