@@ -22,7 +22,6 @@ public class RestControllerEntityJdbc {
 
     private final EntityService service;
 
-    
     @Autowired
     public RestControllerEntityJdbc(EntityService service) {
         this.service = service;
