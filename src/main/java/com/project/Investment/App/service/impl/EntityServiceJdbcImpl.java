@@ -3,6 +3,7 @@ package com.project.Investment.App.service.impl;
 import com.project.Investment.App.dto.EntityDtoRequest;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
+import com.project.Investment.App.model.enam.EntityType;
 import com.project.Investment.App.service.EntityService;
 import com.project.Investment.App.service.QuerySQL;
 import com.project.Investment.App.service.SqlUtil;
@@ -46,7 +47,7 @@ public class EntityServiceJdbcImpl implements EntityService {
                                 resultSet.getString("entity_id"),
                                 resultSet.getDate("effective_date").toLocalDate()))
                         .entityName(resultSet.getString("entity_name"))
-                        .entityType(resultSet.getString("entity_type"))
+                        .entityType(EntityType.valueOf(resultSet.getString("entity_type")))
                         .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build());
             }
         } catch (SQLException ex) {
@@ -65,7 +66,7 @@ public class EntityServiceJdbcImpl implements EntityService {
             preparedStatement.setString(1, entity.getEntityId());
             preparedStatement.setDate(2, Date.valueOf(entity.getEffectiveDate()));
             preparedStatement.setString(3, entity.getEntityName());
-            preparedStatement.setString(4, entity.getEntityType());
+            preparedStatement.setString(4, entity.getEntityType().toString());
             preparedStatement.setString(5, entity.getDefaultBenchmarkId());
 
             preparedStatement.executeUpdate();
@@ -92,7 +93,7 @@ public class EntityServiceJdbcImpl implements EntityService {
                                         resultSet.getString("entity_id"),
                                         resultSet.getDate("effective_date").toLocalDate()))
                                 .entityName(resultSet.getString("entity_name"))
-                                .entityType(resultSet.getString("entity_type"))
+                                .entityType(EntityType.valueOf(resultSet.getString("entity_type")))
                                 .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build()
                 );
             }
@@ -112,7 +113,7 @@ public class EntityServiceJdbcImpl implements EntityService {
             preparedStatement.setString(1, updateEntity.getEntityId());
             preparedStatement.setDate(2, Date.valueOf(updateEntity.getEffectiveDate()));
             preparedStatement.setString(3, updateEntity.getEntityName());
-            preparedStatement.setString(4, updateEntity.getEntityType());
+            preparedStatement.setString(4, updateEntity.getEntityType().toString());
             preparedStatement.setString(5, updateEntity.getDefaultBenchmarkId());
 
             preparedStatement.setString(6, id);
@@ -157,7 +158,7 @@ public class EntityServiceJdbcImpl implements EntityService {
                                         resultSet.getString("entity_id"),
                                         resultSet.getDate("effective_date").toLocalDate()))
                                 .entityName(resultSet.getString("entity_name"))
-                                .entityType(resultSet.getString("entity_type"))
+                                .entityType(EntityType.valueOf(resultSet.getString("entity_type")))
                                 .defaultBenchmarkId(resultSet.getString("default_benchmark_id")).build());
             }
         } catch (SQLException sqlException) {
