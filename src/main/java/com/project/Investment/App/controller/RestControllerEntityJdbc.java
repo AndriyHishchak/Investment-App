@@ -31,7 +31,7 @@ public class RestControllerEntityJdbc {
     public ResponseEntity<List<Entity>> getById(
             @PathVariable(name = "id") String id,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "effectiveDate", required = false) LocalDate effectiveDate,
-            @RequestParam(value = "limit") Integer limit
+            @RequestParam(value = "limit", required = false) Integer limit
     ) {
         return ResponseEntity.ok(service.findById(id, effectiveDate, limit));
     }
