@@ -3,11 +3,13 @@ package com.project.Investment.App.dto;
 import com.project.Investment.App.dto.validator.UniqueDefaultBenchmarkId;
 import com.project.Investment.App.model.Entity;
 import com.project.Investment.App.model.embeddedId.EntityId;
+import com.project.Investment.App.model.enam.EntityType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
 @Data
@@ -15,14 +17,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@UniqueDefaultBenchmarkId
 public class EntityDtoRequest {
-    @NotBlank(message = "Entity Id should not be empty")
+    @NotBlank(message = "{entityId.notEmpty}")
     String entityId;
-    @NotBlank(message = "Name should not be empty")
+    @NotBlank(message = "{entityName.notEmpty}")
     String entityName;
-    @NotBlank(message = "Type should not be empty")
-    String entityType;
-    @NotNull(message = "Effective Date should not be empty")
+    @NotNull(message = "{entityType.notEmpty}")
+    EntityType entityType;
+    @PastOrPresent(message = "{effectiveDate.PastOrPresent}")
+    @NotNull(message = "{effectiveDate.notEmpty}")
     LocalDate effectiveDate;
 
     String defaultBenchmarkId;

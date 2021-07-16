@@ -1,6 +1,7 @@
 package com.project.Investment.App.model;
 
 import com.project.Investment.App.model.embeddedId.EntityId;
+import com.project.Investment.App.model.enam.EntityType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,7 +20,7 @@ public class Entity {
 
     String entityName;
 
-    String entityType;
+    EntityType entityType;
 
     String defaultBenchmarkId;
 
