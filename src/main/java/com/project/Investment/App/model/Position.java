@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 
-
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,17 +13,11 @@ import lombok.experimental.FieldDefaults;
 public class Position {
 
     PositionId positionId;
-
     char frequency;
-
     Double weight;
-
     Double grossReturn;
-
     Double bmvGross;
-
     Double emvGross;
-
     Double gainLossGross;
 
 
@@ -33,7 +25,6 @@ public class Position {
         return "(" +
                 '\'' + positionId.getEntityId() + '\'' + ',' +
                 '\'' + positionId.getEffectiveDate() + '\'' + ',' +
-                positionId.getAggregateId() + ',' +
                 '\'' + frequency + '\'' + ',' +
                 positionId.getSecurityId() + ',' +
                 weight + ',' +
@@ -47,7 +38,6 @@ public class Position {
     public String toStringCsv() {
         return positionId.getEntityId() + ',' +
                 positionId.getEffectiveDate() + ',' +
-                positionId.getAggregateId() + ',' +
                 frequency + ',' +
                 positionId.getSecurityId() + ',' +
                 weight + ',' +

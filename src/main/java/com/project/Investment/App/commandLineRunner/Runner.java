@@ -29,7 +29,7 @@ public class Runner implements CommandLineRunner {
                             LocalDate.parse("2021-01-01"),
                             "F001",
                             1000000,
-                            new Integer[][]{{2, 10}, {2, 10}});
+                            40);
 
             generatorFileCsv.createFileAndWriteToFile("Position.csv", positions);
             generatorFileSql.createFileAndWriteToFile("V6__insert_data_into_position.sql", positions);
