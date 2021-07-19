@@ -1,7 +1,6 @@
 package com.project.Investment.App.generatingModule.impl;
 
 import com.project.Investment.App.generatingModule.GeneratorFile;
-import com.project.Investment.App.generatingModule.GeneratorPosition;
 import com.project.Investment.App.model.Position;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +20,8 @@ import java.util.List;
 @Service("generatorFileCsv")
 public class GeneratorFileCsvImpl implements GeneratorFile {
 
-    private final GeneratorPosition generatorPosition;
-    private final Path path = Paths.get("C:/Users/andrii.hishchak/Desktop/Investment-App/src/main/resources/csv/");
 
-    public GeneratorFileCsvImpl(GeneratorPosition generatorPosition) {
-        this.generatorPosition = generatorPosition;
-    }
+    private final Path path = Paths.get("C:/Users/andrii.hishchak/Documents/GitHub/Investment-App/src/main/resources/csv/");
 
     /**
      * The method creates and writes a file
@@ -57,7 +52,6 @@ public class GeneratorFileCsvImpl implements GeneratorFile {
         StringBuilder sb = new StringBuilder();
         sb.append("ENTITY_ID,");
         sb.append("EFFECTIVE_DATE,");
-        sb.append("AGGREGATE_ID,");
         sb.append("FREQUENCY,");
         sb.append("SECURITY_ID,");
         sb.append("WEIGHT,");

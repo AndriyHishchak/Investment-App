@@ -1,7 +1,6 @@
 create table position (
     effective_date date not null,
     entity_id varchar(255) not null,
-    aggregate_id integer,
     security_id integer,
     frequency char(255),
     weight double,
@@ -9,4 +8,4 @@ create table position (
     emv_gross double,
     gross_return double,
     gain_loss_gross double,
-    primary key (effective_date, entity_id,security_id,aggregate_id))
+    primary key (effective_date, entity_id,security_id))

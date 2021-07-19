@@ -25,20 +25,19 @@ public class GeneratorPosition {
     /**
      * The method generates data for the Position model.
      *
-     * @param startDate date point from which data generation begins.
-     * @param entityId  unique identifier
-     * @param total     amount that is distributed between groups and subgroups.
-     * @param group     an array containing the number of groups and consisting of the number of subgroups and the number of records for the subgroup.
+     * @param startDate     date point from which data generation begins.
+     * @param entityId      unique identifier
+     * @param total         amount that is distributed between groups and subgroups.
+     * @param countSecurity count of security
      * @return list of positions
      */
 
-    public List<Position> generateDataForPositions(LocalDate startDate, String entityId, int total, Integer[][] group) {
+    public List<Position> generateDataForPositions(LocalDate startDate, String entityId, int total, Integer countSecurity) {
         List<Position> positions = new ArrayList<>();
-        Map<Integer, Integer> securityIdAndAggregateID = generatorMapGroup(group);
-        Double[] StartBmv = getDistributionBmv(securityIdAndAggregateID, total);
+        Double[] StartBmv = getDistributionBmvByCountSecurity(countSecurity, total, 30000, 20000);
         LocalDate finishDate = startDate.plusMonths(3);
 
-        for (int i = 0, securityId = 1; i < securityIdAndAggregateID.size(); i++, securityId++) {
+        for (int i = 0, securityId = 1; i < countSecurity; i++, securityId++) {
 
             Double bmvGross = StartBmv[i];
             Double emvGross = getEmvGross(bmvGross);
@@ -46,8 +45,7 @@ public class GeneratorPosition {
                     .positionId(new PositionId(
                             entityId,
                             startDate,
-                            securityId,
-                            securityIdAndAggregateID.get(securityId)))
+                            securityId))
                     .frequency('D')
                     .weight(getWeight(bmvGross, (double) total))
                     .bmvGross(bmvGross)
@@ -62,10 +60,10 @@ public class GeneratorPosition {
 
             if (isBusinessDay(date)) {
 
-                int firstPosition = positions.size() - securityIdAndAggregateID.size();
+                int firstPosition = positions.size() - countSecurity;
                 Double yesterdayTotal = getYesterdayTotal(positions, firstPosition);
 
-                for (int i = 0, securityId = 1, firstIndexPositionForPreviousDay = firstPosition; i < securityIdAndAggregateID.size(); i++, securityId++, firstIndexPositionForPreviousDay++) {
+                for (int i = 0, securityId = 1, firstIndexPositionForPreviousDay = firstPosition; i < countSecurity; i++, securityId++, firstIndexPositionForPreviousDay++) {
 
                     Double bmvGross = positions.get(firstIndexPositionForPreviousDay).getEmvGross();
                     Double emvGross = getEmvGross(bmvGross);
@@ -74,8 +72,7 @@ public class GeneratorPosition {
                             .positionId(new PositionId(
                                     entityId,
                                     date,
-                                    securityId,
-                                    securityIdAndAggregateID.get(securityId)))
+                                    securityId))
                             .frequency('D')
                             .weight(getWeight(bmvGross, yesterdayTotal))
                             .bmvGross(bmvGross)
@@ -221,6 +218,28 @@ public class GeneratorPosition {
         } else {
             return BigFunctions.subtract(bmvGross, BigFunctions.divide(bmvGross * random.nextInt(10), 100.0));
         }
+    }
+
+    /**
+     * The method distributes total between security.
+     *
+     * @param countSecurity count of Security
+     * @param total         amount that is distributed between groups and subgroups.
+     * @param maximumRate   maximum rate for security.
+     * @param minimumRate   minimum rate for security.
+     * @return an array with a divided total between groups and subgroups
+     */
+    private Double[] getDistributionBmvByCountSecurity(Integer countSecurity, int total, double maximumRate, double minimumRate) {
+
+        Double[] distributionBmv = new Double[countSecurity];
+
+        for (int i = 0; i < distributionBmv.length - 1; i++) {
+            distributionBmv[i] = Math.floor(Math.random() * (maximumRate - minimumRate + 1)) + minimumRate;
+            total -= distributionBmv[i];
+        }
+        distributionBmv[distributionBmv.length - 1] = (double) total;
+
+        return distributionBmv;
     }
 
     /**

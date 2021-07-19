@@ -25,23 +25,10 @@ public class EntityDtoRequest {
     String entityName;
     @NotNull(message = "{entityType.notEmpty}")
     EntityType entityType;
-    @PastOrPresent(message = "{effectiveDate.PastOrPresent}")
-    @NotNull(message = "{effectiveDate.notEmpty}")
+    @PastOrPresent(message = "{date.PastOrPresent}")
+    @NotNull(message = "{date.notEmpty}")
     LocalDate effectiveDate;
-
     String defaultBenchmarkId;
-
-
-    public static EntityDtoRequest fromEntity(Entity entity) {
-
-        return EntityDtoRequest.builder()
-                .entityId(entity.getEntityId().getEntityId())
-                .entityName(entity.getEntityName())
-                .entityType(entity.getEntityType())
-                .defaultBenchmarkId(entity.getDefaultBenchmarkId())
-                .effectiveDate(entity.getEntityId().getEffectiveDate())
-                .build();
-    }
 
     public static Entity fromEntityDtoResponse(EntityDtoRequest entity) {
         EntityId entityId = new EntityId(entity.getEntityId(), entity.getEffectiveDate());
@@ -52,6 +39,4 @@ public class EntityDtoRequest {
                 .defaultBenchmarkId(entity.getDefaultBenchmarkId())
                 .build();
     }
-
-
 }
